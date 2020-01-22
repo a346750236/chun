@@ -10,7 +10,10 @@
       <!-- 右侧大容器 -->
       <el-container>
         <!-- 头部 -->
-        <el-header>头部</el-header>
+        <el-header>
+          <!-- 头部导航 -->
+          <layout-header></layout-header>
+        </el-header>
         <!-- 中间区域 -->
         <el-main>
           <!-- 二级路由容器 -->

@@ -3,7 +3,9 @@
      <div class='title'>
          <img src="../../assets/img/logo_admin.png" alt="">
      </div>
+     <!-- 添加router让组件变成路由组件 -->
      <el-menu
+      router
       style="width:200px"
       background-color="#353b4e"
       text-color="#adafb5"
