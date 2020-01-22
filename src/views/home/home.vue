@@ -1,11 +1,31 @@
 <template>
-  <div class="Home">主页</div>
+  <div class="Home">
+    <!-- 先定义一个大容器 -->
+    <el-container>
+      <!-- 先放置一个左侧 -->
+      <el-aside>
+        <!-- 左侧导航 -->
+         <layout-aside></layout-aside>
+      </el-aside>
+      <!-- 右侧大容器 -->
+      <el-container>
+        <!-- 头部 -->
+        <el-header>头部</el-header>
+        <!-- 中间区域 -->
+        <el-main>
+          <!-- 二级路由容器 -->
+          <router-view></router-view>
+        </el-main>
+      </el-container>
+    </el-container>
+  </div>
 </template>
 
 <script>
 export default {
   name: 'Home',
-  components: {},
+  components: {
+  },
   props: {},
   data () {
     return {
