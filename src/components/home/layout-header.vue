@@ -1,6 +1,6 @@
 <template>
   <!-- 头部组件 -->
-  <el-row class="layout-header" type="flex" justify="space-betwwen" align="middle">
+  <el-row class="layout-header" type="flex" justify="space-between" align="middle">
     <!-- 左侧 -->
     <el-col class="left" :span="6">
       <!-- 左侧图标 -->

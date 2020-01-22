@@ -6,12 +6,12 @@
      <!-- 添加router让组件变成路由组件 -->
      <el-menu
       router
-      style="width:200px"
+      style="width:231px"
       background-color="#353b4e"
       text-color="#adafb5"
       active-text-color="#ffd04b">
       <!-- 首页 -->
-       <el-menu-item index="4">
+       <el-menu-item index="/home">
            <!-- 图标 -->
         <i class="el-icon-s-home"></i>
         <span slot="title">首页</span>
@@ -24,10 +24,10 @@
           <span>内容管理</span>
         </template>
           <!-- 二级内容 -->
-          <el-menu-item index="1-1">发布文章</el-menu-item>
-          <el-menu-item index="1-2">内容列表</el-menu-item>
-          <el-menu-item index="1-3">评论列表</el-menu-item>
-          <el-menu-item index="1-4">素材管理</el-menu-item>
+          <el-menu-item index="/home/publish">发布文章</el-menu-item>
+          <el-menu-item index="/home/articles">内容列表</el-menu-item>
+          <el-menu-item index="/home/comment">评论列表</el-menu-item>
+          <el-menu-item index="/home/material">素材管理</el-menu-item>
       </el-submenu>
       <el-submenu index="2">
           <!-- title插槽时submenu 中显示的一级内容 -->
@@ -36,13 +36,12 @@
               <span>粉丝管理</span>
           </template>
           <!-- 二级内容 -->
-         <el-menu-item index="2-1">图文数据</el-menu-item>
-         <el-menu-item index="2-2">粉丝概况</el-menu-item>
-         <el-menu-item index="2-3">粉丝画像</el-menu-item>
-         <el-menu-item index="2-4">粉丝列表</el-menu-item>
-
+         <el-menu-item index="/home/picture">图文数据</el-menu-item>
+         <el-menu-item index="/home/fansinfo">粉丝概况</el-menu-item>
+         <el-menu-item index="/home/fanslife">粉丝画像</el-menu-item>
+         <el-menu-item index="/home/fanslist">粉丝列表</el-menu-item>
       </el-submenu>
-      <el-menu-item index="3" >
+      <el-menu-item index="/home/account">
         <i class="el-icon-s-tools"></i>
         <span slot="title">账户信息</span>
       </el-menu-item>
@@ -70,7 +69,7 @@ export default {
 
 <style scoped lang="less">
 .layout-aside{
-  width: 200px;
+  width: 230px;
   overflow: hidden;
    .el-menu {
      border-right: none;
@@ -84,4 +83,5 @@ export default {
     }
   }
 }
+
 </style>
