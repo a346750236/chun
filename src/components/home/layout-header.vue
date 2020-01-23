@@ -52,7 +52,8 @@ export default {
       const result = await this.$axios({
         url: '/user/profile'
       })
-      result.data = this.userInfo
+      this.userInfo = result.data
+      console.log(result.data)
     },
     //   下拉菜单事件
     handleCommand (command) {

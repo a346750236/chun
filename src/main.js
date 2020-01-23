@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
-// import './permission' // 引入js
+import './permission' // 引入js
 // 引入UI
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'

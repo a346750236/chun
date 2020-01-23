@@ -3,7 +3,7 @@
     <!-- 先定义一个大容器 -->
     <el-container>
       <!-- 先放置一个左侧 -->
-      <el-aside style="background-color:#353b4e;mix-height:100vh;width:230px">
+      <el-aside style="background-color:#353b4e;min-height:100vh;width:230px">
         <!-- 左侧导航 -->
          <layout-aside></layout-aside>
       </el-aside>

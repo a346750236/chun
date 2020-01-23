@@ -27,26 +27,29 @@ const routes = [
       {
         path: '',
         component: Home1
+      },
+      {
+        // 评论列表
+        path: 'comment',
+        component: () => import('@/views/comment') // 按需加载
+      },
+      {
+        path: 'material',
+        component: () => import('@/views/material') // 按需加载
+      }, {
+        path: 'articles',
+        component: () => import('@/views/articles') // 按需加载
+      }, {
+        path: 'publish/:arId', // 定义动态路由参数  此规则只匹配修改文章
+        component: () => import('@/views/publish') // 按需加载
+      }, {
+        path: 'publish', //  此规则匹配发布文章
+        component: () => import('@/views/publish') // 按需加载
+      },
+      {
+        path: 'account', // 账户信息
+        component: () => import('@/views/account') // 按需加载
       }
-      //  {
-      //   path: 'comment',
-      //   component: () => import('@/comment') // 按需加载
-      // }, {
-      //   path: 'material',
-      //   component: () => import('@/material') // 按需加载
-      // }, {
-      //   path: 'articles',
-      //   component: () => import('@/articles') // 按需加载
-      // }, {
-      //   path: 'publish/:arId', // 定义动态路由参数  此规则只匹配修改文章
-      //   component: () => import('@/publish') // 按需加载
-      // }, {
-      //   path: 'publish', //  此规则匹配发布文章
-      //   component: () => import('@/publish') // 按需加载
-      // }, {
-      //   path: 'account', // 账户信息
-      //   component: () => import('@/account') // 按需加载
-      // }
 
     ]
   }
