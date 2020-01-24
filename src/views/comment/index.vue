@@ -15,7 +15,7 @@
       <el-table-column label="操作">
         <template slot-scope="object">
           <el-button type="text" size="small">修改</el-button>
-          <el-button type="text" size="small">{{ object.row.comment_status ? '关闭评论' : '打开评论' }}</el-button>
+          <el-button type="text" size="small" @click="Opcomment(object.row)">{{ object.row.comment_status ? '关闭评论' : '打开评论' }}</el-button>
         </template>
 </el-table-column>
     </el-table>
@@ -58,6 +58,28 @@ export default {
       // cellValue 当前单元格的值
       // index  当前下标
       return cellValue ? '正常' : '关闭'
+    },
+    // 打开或者关闭评论
+    async Opcomment (row) {
+      // console.log(row)
+      let msg = row.comment_status ? '关闭' : '打开'
+      await this.$confirm(`您确定要${msg}评论吗?`)
+      await this.$axios({
+        method: 'put',
+        url: 'comments/status',
+        params: {
+          article_id: row.id.toString()
+        },
+        data: {
+          allow_comment: !row.comment_status
+        }
+      })
+      this.$message({
+        type: 'success',
+        message: '操作成功'
+      })
+      // 重新请求数据
+      this.Getcomment()
     }
   }
 }
