@@ -4,6 +4,15 @@
     <my-bread slot="header">
       <template slot="title">素材管理</template>
     </my-bread>
+    <!-- 上传组件 -->
+    <!-- 上传图片 -->
+    <!-- 写el-row是因为比较好操控布局 -->
+     <el-row type='flex' justify="end" v-loading="loading">
+         <!-- http-request是一个方法，用来上传图片的  show-file-lis是取消上传图片的信息-->
+        <el-upload action="ql" :http-request="uploadImg" :show-file-list="false">
+              <el-button  size="small" type="primary">点击上传</el-button>
+        </el-upload>
+    </el-row>
     <!-- 切换组件 -->
     <el-tabs v-model="activeName" @tab-click="changTab">
       <el-tab-pane label="全部素材" name="all">
@@ -60,6 +69,7 @@ export default {
   props: {},
   data () {
     return {
+      loading: false, // 加载默认为关闭
       // 控制切换素材
       activeName: 'all',
       // 全部素材
@@ -79,6 +89,19 @@ export default {
   },
   mounted () {},
   methods: {
+    // 上传图片
+    async uploadImg (params) {
+      this.loading = true // 上传前打开
+      let form = new FormData()
+      form.append('image', params.flie)
+      await this.$axios({
+        url: '/user/image',
+        method: 'POST',
+        data: form
+      })
+      this.loading = false // 上传后关闭
+      this.AllgetList()
+    },
     // 切换分页
     changePage (newPage) {
       this.page.currentPage = newPage
