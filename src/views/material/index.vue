@@ -5,7 +5,7 @@
        <template slot="title">素材管理</template>
     </my-bread>
     <!-- 切换组件 -->
-    <el-tabs v-model="activeName">
+    <el-tabs v-model="activeName" @tab-click="changTab">
       <el-tab-pane label="全部素材" name="all">
          <!-- 全部素材 -->
          <div class="img-list">
@@ -21,7 +21,16 @@
             </el-card>
          </div>
       </el-tab-pane>
-      <el-tab-pane label="收藏素材" name="collection">456</el-tab-pane>
+      <el-tab-pane label="收藏素材" name="collect">
+        <!-- 收藏素材 -->
+         <div class="img-list">
+           <el-card class="img-card" v-for="item in list"
+            :key="item.id"
+            >
+            <img :src=item.url alt="">
+            </el-card>
+         </div>
+      </el-tab-pane>
     </el-tabs>
     </el-card>
 </template>
@@ -47,12 +56,18 @@ export default {
   },
   mounted () {},
   methods: {
+    // 切换标签组件
+    changTab () {
+      // 重新获取数据
+      this.AllgetList()
+    },
     // 获取全部素材
     AllgetList () {
+      // all 全部 collect 是收藏   this.activeName === 'collect'  得到是布尔值fasle
       this.$axios({
         url: '/user/images',
         method: 'GET',
-        params: { collect: false }
+        params: { collect: this.activeName === 'collect' }
       }).then(result => {
         this.list = result.data.results
       })
