@@ -23,7 +23,7 @@
             <!-- 两个标签 -->
             <el-row class="operate" type="flex" align="middle" justify="space-around">
               <i @click="collectOrCancel(item)" :style="{color:item.is_collected ? 'red' : ''}" class="el-icon-star-on"></i>
-              <i class="el-icon-delete-solid"></i>
+              <i @click="Deletepictures(item.id)" class="el-icon-delete-solid"></i>
             </el-row>
           </el-card>
         </div>
@@ -89,29 +89,41 @@ export default {
   },
   mounted () {},
   methods: {
+    async Deletepictures (id) {
+      await this.$confirm('您确定要删除吗?')
+      await this.$axios({
+        url: `user/images/${id}`,
+        method: 'delete'
+      })
+      this.$message({
+        type: 'success',
+        message: '删除成功'
+      })
+      // 重新加载
+      this.AllgetList()
+    },
     // 收藏或者取消收藏
-    collectOrCancel (row) {
-      this.$axios({
+    async collectOrCancel (row) {
+      await this.$axios({
         url: `user/images/${row.id}`,
         method: 'PUT',
         data: { collect: !row.is_collected }
-      }).then(result => {
-        // 重新加载
-        this.AllgetList()
       })
+      // 重新加载
+      this.AllgetList()
     },
     // 上传图片
     async uploadImg (params) {
       this.loading = true // 上传前打开
       let form = new FormData()
-      form.append('image', params.flie)
+      form.append('image', params.file) // 上传append添加到formData数据中
       await this.$axios({
-        url: '/user/image',
+        url: '/user/images',
         method: 'POST',
         data: form
       })
       this.loading = false // 上传后关闭
-      this.AllgetList()
+      this.AllgetList() // 调用请求数据
     },
     // 切换分页
     changePage (newPage) {
