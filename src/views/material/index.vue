@@ -22,7 +22,7 @@
             <img :src="item.url" alt />
             <!-- 两个标签 -->
             <el-row class="operate" type="flex" align="middle" justify="space-around">
-              <i class="el-icon-star-on"></i>
+              <i @click="collectOrCancel(item)" :style="{color:item.is_collected ? 'red' : ''}" class="el-icon-star-on"></i>
               <i class="el-icon-delete-solid"></i>
             </el-row>
           </el-card>
@@ -89,6 +89,17 @@ export default {
   },
   mounted () {},
   methods: {
+    // 收藏或者取消收藏
+    collectOrCancel (row) {
+      this.$axios({
+        url: `user/images/${row.id}`,
+        method: 'PUT',
+        data: { collect: !row.is_collected }
+      }).then(result => {
+        // 重新加载
+        this.AllgetList()
+      })
+    },
     // 上传图片
     async uploadImg (params) {
       this.loading = true // 上传前打开
