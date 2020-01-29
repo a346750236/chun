@@ -69,14 +69,15 @@
       <span>共找到1000条符合条件的内容</span>
     </el-row>
      <!-- 循环的模板 -->
-     <el-row v-for="item in 100" :key="item.id" class="article-item" type="flex" justify="space-between">
+     <el-row v-for="item in list" :key="item.id.toString()" class="article-item" type="flex" justify="space-between">
        <!-- 左边部分 -->
        <el-col :span="14">
          <el-row type="flex">
-         <img src="../../assets/img/404.png" alt="">
+         <img :src="item.cover.images.length ? item.cover.images[0] : defaultImg" alt="">
          <div class='info'>
-                <span>年少不听李宗盛，听懂己是不惑年。</span>
-                <el-tag class='tag'>标签一</el-tag>
+                <span>{{item.title}}</span>
+                <!-- 过滤器不仅可以在插值表达式中使用  还可以在v-bind中使用 -->
+                <el-tag :type="item.status | filterType" class='tag'>{{item.status | filterStatus}}</el-tag>
                 <span class='date'>2019-12-24 09:15:42</span>
               </div>
       </el-row>
@@ -102,6 +103,8 @@ export default {
   data () {
     return {
       channel: [], // 频道列表
+      list: [], // 文章列表
+      defaultImg: require('../../assets/img/404.png'),
       FormData: {
         status: 5, // 默认为全部
         channel_id: null, // 默认为null
@@ -114,15 +117,61 @@ export default {
   created () {
     // 频道列表
     this.Getchannel()
+    // 文章列表
+    this.GetArticles()
   },
   mounted () {},
+  filters: {
+    // 处理显示状态
+    filterStatus (value) {
+      // value 是过滤器前面表达式计算得到的值
+      // 文章状态 0-草稿，1-待审核，2-审核通过，3-审核失败，4-已删除
+      switch (value) {
+        case 0:
+          return '草稿'
+        case 1:
+          return '待审核'
+        case 2:
+          return '已发表'
+        case 3:
+          return '审核失败'
+        default:
+          break
+      }
+    },
+    filterType (value) {
+      // value 是过滤器前面表达式计算得到的值
+      // 文章状态 0-草稿，1-待审核，2-审核通过，3-审核失败，4-已删除
+      switch (value) {
+        case 0:
+          return 'warning'
+        case 1:
+          return 'info'
+        case 2:
+          return ''
+        case 3:
+          return 'danger'
+        default:
+          break
+      }
+    }
+  },
   methods: {
+
     // 获取频道
     async Getchannel () {
       const result = await this.$axios({
         url: '/channels'
       })
       this.channel = result.data.channels
+    },
+    // 文章列表
+    async GetArticles () {
+      const result = await this.$axios({
+        url: '/articles',
+        method: 'GET'
+      })
+      this.list = result.data.results
     }
   }
 }
