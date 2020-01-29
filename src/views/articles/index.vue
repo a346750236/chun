@@ -64,6 +64,33 @@
         ></el-date-picker>
       </el-col>
     </el-row>
+    <!-- 主体 -->
+    <el-row class="totle">
+      <span>共找到1000条符合条件的内容</span>
+    </el-row>
+     <!-- 循环的模板 -->
+     <el-row v-for="item in 100" :key="item.id" class="article-item" type="flex" justify="space-between">
+       <!-- 左边部分 -->
+       <el-col :span="14">
+         <el-row type="flex">
+         <img src="../../assets/img/404.png" alt="">
+         <div class='info'>
+                <span>年少不听李宗盛，听懂己是不惑年。</span>
+                <el-tag class='tag'>标签一</el-tag>
+                <span class='date'>2019-12-24 09:15:42</span>
+              </div>
+      </el-row>
+       </el-col>
+       <!-- 右边部分 -->
+       <el-col class="right" :span="2">
+         <span>
+           <i class="el-icon-edit"></i>修改
+         </span>
+         <span>
+           <i class="el-icon-delete">删除</i>
+         </span>
+       </el-col>
+     </el-row>
   </el-card>
 </template>
 
@@ -106,6 +133,40 @@ export default {
   .searchTool {
     padding: 20px 0;
     margin-left: 30px;
+  }
+}
+.totle{
+   margin:35px 0;
+   height: 35px;
+   border-bottom: 1px dashed #ccc;
+}
+.article-item{
+  margin: 20px 0;
+  padding: 10px 0;
+  border-bottom: 1px solid #f2f3f5;
+  img{
+    width: 180px;
+    height: 120px;
+    margin-right: 10px;
+    border-radius: 5px;
+  }
+  .info{
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    .tag{
+      max-width: 100px;
+    }
+    .date{
+      color: #999;
+      font-size: 12px;
+    }
+  }
+  .right{
+    span{
+      cursor: pointer;
+    }
   }
 }
 </style>
