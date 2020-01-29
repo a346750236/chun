@@ -33,19 +33,12 @@
         <span>频道列表</span>
       </el-col>
       <el-col :span="18">
-          <!-- 循环生成多个el-option
+        <!-- 循环生成多个el-option
               label 指的是 el-option显示值
               value指的是 el-option的存储值
-            -->
-        <el-select
-         @change="changeCondition"
-         v-model="FormData.channel_id">
-          <el-option
-          v-for="item in channel"
-           :key="item.id"
-            :value="item.id"
-            :label="item.name">
-            </el-option>
+        -->
+        <el-select @change="changeCondition" v-model="FormData.channel_id">
+          <el-option v-for="item in channel" :key="item.id" :value="item.id" :label="item.name"></el-option>
         </el-select>
       </el-col>
     </el-row>
@@ -57,7 +50,7 @@
       </el-col>
       <el-col :span="18">
         <!-- 时间选择器 -->
-         <el-date-picker
+        <el-date-picker
           @change="changeCondition"
           value-format="yyyy-MM-dd"
           v-model="FormData.dateRange"
@@ -70,32 +63,49 @@
     </el-row>
     <!-- 主体 -->
     <el-row class="totle">
-      <span>共找到1000条符合条件的内容</span>
+      <span>共找到{{ page.total }}条符合条件的内容</span>
     </el-row>
-     <!-- 循环的模板 -->
-     <el-row v-for="item in list" :key="item.id.toString()" class="article-item" type="flex" justify="space-between">
-       <!-- 左边部分 -->
-       <el-col :span="14">
-         <el-row type="flex">
-         <img :src="item.cover.images.length ? item.cover.images[0] : defaultImg" alt="">
-         <div class='info'>
-                <span>{{item.title}}</span>
-                <!-- 过滤器不仅可以在插值表达式中使用  还可以在v-bind中使用 -->
-                <el-tag :type="item.status | filterType" class='tag'>{{item.status | filterStatus}}</el-tag>
-                <span class='date'>2019-12-24 09:15:42</span>
-              </div>
-      </el-row>
-       </el-col>
-       <!-- 右边部分 -->
-       <el-col class="right" :span="2">
-         <span>
-           <i class="el-icon-edit"></i>修改
-         </span>
-         <span>
-           <i class="el-icon-delete">删除</i>
-         </span>
-       </el-col>
-     </el-row>
+    <!-- 循环的模板 -->
+    <el-row
+      v-for="item in list"
+      :key="item.id.toString()"
+      class="article-item"
+      type="flex"
+      justify="space-between"
+    >
+      <!-- 左边部分 -->
+      <el-col :span="14">
+        <el-row type="flex">
+          <img :src="item.cover.images.length ? item.cover.images[0] : defaultImg" alt />
+          <div class="info">
+            <span>{{item.title}}</span>
+            <!-- 过滤器不仅可以在插值表达式中使用  还可以在v-bind中使用 -->
+            <el-tag :type="item.status | filterType" class="tag">{{item.status | filterStatus}}</el-tag>
+            <span class="date">2019-12-24 09:15:42</span>
+          </div>
+        </el-row>
+      </el-col>
+      <!-- 右边部分 -->
+      <el-col class="right" :span="2">
+        <span>
+          <i class="el-icon-edit"></i>修改
+        </span>
+        <span>
+          <i class="el-icon-delete">删除</i>
+        </span>
+      </el-col>
+    </el-row>
+    <!-- 分页组件 -->
+    <el-row type="flex" justify="center" style="height:80px" align="middle">
+      <el-pagination
+        background
+        layout="prev, pager, next"
+        :total="page.total"
+        :current-page="page.currentPage"
+        :page-size="page.pageSize"
+        @current-change="changePage"
+      ></el-pagination>
+    </el-row>
   </el-card>
 </template>
 
@@ -113,6 +123,11 @@ export default {
         status: 5, // 默认为全部
         channel_id: null, // 默认为null
         dateRange: [] // 时间是个数组
+      },
+      page: {
+        currentPage: 1, // 当前页码
+        pageSize: 10, // 文章列表最低10条
+        total: 0
       }
     }
   },
@@ -161,14 +176,30 @@ export default {
     }
   },
   methods: {
+    // 页码切换
+    changePage (newPage) {
+      this.page.currentPage = newPage
+      // 最新状态
+      this.getConditionArticle()
+    },
     // 改变条件
     changeCondition () {
+      this.page.currentPage = 1 // 强制将当前的页码回到第一页
       // 最新状态
+      this.getConditionArticle()
+    },
+    // 复用代码进行封装
+    getConditionArticle () {
       let params = {
+        page: this.page.currentPage, // 分页信息
+        per_page: this.page.pageSize, // 分页信息
         status: this.FormData.status === 5 ? null : this.FormData.status, // 不传为全部 5代表全部
         channel_id: this.FormData.channel_id, // 频道
-        begin_pubdate: this.FormData.dateRange.length ? this.FormData.dateRange[0] : null, // 起始时间
-        end_pubdate: this.FormData.dateRange.length > 1 ? this.FormData.dateRange[1] : null // 截止时间
+        begin_pubdate: this.FormData.dateRange.length
+          ? this.FormData.dateRange[0]
+          : null, // 起始时间
+        end_pubdate:
+          this.FormData.dateRange.length > 1 ? this.FormData.dateRange[1] : null // 截止时间
       }
       // 调用文章列表
       this.GetArticles(params)
@@ -187,7 +218,8 @@ export default {
         method: 'GET',
         params
       })
-      this.list = result.data.results
+      this.list = result.data.results // 文章列表
+      this.page.total = result.data.total_count // 文章总数
     }
   }
 }
@@ -200,36 +232,36 @@ export default {
     margin-left: 30px;
   }
 }
-.totle{
-   margin:35px 0;
-   height: 35px;
-   border-bottom: 1px dashed #ccc;
+.totle {
+  margin: 35px 0;
+  height: 35px;
+  border-bottom: 1px dashed #ccc;
 }
-.article-item{
+.article-item {
   margin: 20px 0;
   padding: 10px 0;
   border-bottom: 1px solid #f2f3f5;
-  img{
+  img {
     width: 180px;
     height: 120px;
     margin-right: 10px;
     border-radius: 5px;
   }
-  .info{
+  .info {
     height: 100px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    .tag{
+    .tag {
       max-width: 100px;
     }
-    .date{
+    .date {
       color: #999;
       font-size: 12px;
     }
   }
-  .right{
-    span{
+  .right {
+    span {
       cursor: pointer;
     }
   }
