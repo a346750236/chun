@@ -89,6 +89,7 @@ export default {
   },
   mounted () {},
   methods: {
+    // 删除
     async Deletepictures (id) {
       await this.$confirm('您确定要删除吗?')
       await this.$axios({

@@ -1,5 +1,11 @@
 <template>
-  <div class="post-comment">评论项</div>
+  <!-- 卡片 -->
+   <el-card>
+     <!-- 面包屑 -->
+     <my-bread slot="header">
+        <template slot="title">文章列表</template>
+     </my-bread>
+   </el-card>
 </template>
 
 <script>
