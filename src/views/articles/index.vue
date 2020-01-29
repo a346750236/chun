@@ -91,7 +91,9 @@
           <i class="el-icon-edit"></i>修改
         </span>
         <span>
-          <i class="el-icon-delete">删除</i>
+          <i
+          @click="delArticle(item.id)"
+           class="el-icon-delete">删除</i>
         </span>
       </el-col>
     </el-row>
@@ -176,6 +178,22 @@ export default {
     }
   },
   methods: {
+    // 删除数据
+    async delArticle (id) {
+      // 所有已发布的文章是不可以删除的  只有草稿才可以删除
+      await this.$confirm('您是否要删除这个文章吗?')
+      //   调用删除接口
+      await this.$axios({
+        url: `articles/${id.toString()}`,
+        method: 'delete'
+      })
+      this.$message({
+        type: 'success',
+        message: '删除成功'
+      })
+      // 最新状态
+      this.getConditionArticle()
+    },
     // 页码切换
     changePage (newPage) {
       this.page.currentPage = newPage
