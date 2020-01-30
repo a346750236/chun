@@ -6,15 +6,15 @@
       <template slot="title">发布文章</template>
     </my-bread>
     <!-- 页面结构 -->
-    <el-form ref="myForm" :model="formData" :rules="rules" style="margin-left:50px">
-      <el-form-item prop="title" label="标题：">
+    <el-form ref="myForm" :model="formData" :rules="rules" style="margin-left:80px">
+      <el-form-item prop="title" label="标题">
         <el-input v-model="formData.title" style="width:50%"></el-input>
       </el-form-item>
-      <el-form-item prop="content" label="内容：">
-        <!-- 文本框 -->
-        <el-input v-model="formData.content" type="textarea" :rows="4" style="width:80%"></el-input>
+      <el-form-item prop="content" label="内容">
+        <!-- 富文本 -->
+        <quill-editor v-model="formData.content" type="textarea" :rows="4" style="height:300px;margin-left:50px"></quill-editor>
       </el-form-item>
-      <el-form-item label="封面：" prop="type">
+      <el-form-item label="封面" prop="type" style="margin-top:100px;">
         <!-- 单选组 -->
         <el-radio-group v-model="formData.cover.type">
           <el-radio :label="1">单图</el-radio>
@@ -24,7 +24,7 @@
         </el-radio-group>
       </el-form-item>
       <!-- 下拉框 -->
-      <el-form-item label="频道：" prop="channel_id">
+      <el-form-item label="频道" prop="channel_id">
         <el-select v-model="formData.channel_id">
           <el-option v-for="item in channel" :key="item.id" :label="item.name" :value="item.id"></el-option>
         </el-select>
