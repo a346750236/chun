@@ -16,7 +16,8 @@
               0-草稿，1-待审核，2-审核通过，3-审核失败，4-已删除，不传为全部
         -->
         <!-- 单选框组 -->
-        <el-radio-group @change="changeCondition" v-model="FormData.status">
+         <!-- 第一种 @change="changeCondition"方法，第二种watch监听方法 -->
+        <el-radio-group v-model="FormData.status">
           <!-- 全部为5  判断是不是全部 如果是就传入null -->
           <el-radio :label="5">全部</el-radio>
           <el-radio :label="0">草稿</el-radio>
@@ -37,7 +38,8 @@
               label 指的是 el-option显示值
               value指的是 el-option的存储值
         -->
-        <el-select @change="changeCondition" v-model="FormData.channel_id">
+        <!-- 第一种 @change="changeCondition"方法，第二种watch监听方法 -->
+        <el-select v-model="FormData.channel_id">
           <el-option v-for="item in channel" :key="item.id" :value="item.id" :label="item.name"></el-option>
         </el-select>
       </el-col>
@@ -50,8 +52,8 @@
       </el-col>
       <el-col :span="18">
         <!-- 时间选择器 -->
+         <!-- 第一种 @change="changeCondition"方法，第二种watch监听方法 -->
         <el-date-picker
-          @change="changeCondition"
           value-format="yyyy-MM-dd"
           v-model="FormData.dateRange"
           type="daterange"
@@ -134,7 +136,15 @@ export default {
     }
   },
   computed: {},
-  watch: {},
+  watch: {
+    FormData: {
+      handler () {
+        // 直接调用函数
+        this.changeCondition()
+      },
+      deep: true // 深度检测  ,不管有多少层，只要有一个数据变化，就会触发FormData中的一个函数handler
+    }
+  },
   created () {
     // 频道列表
     this.Getchannel()
