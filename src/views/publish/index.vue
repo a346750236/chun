@@ -12,7 +12,12 @@
       </el-form-item>
       <el-form-item prop="content" label="内容">
         <!-- 富文本 -->
-        <quill-editor v-model="formData.content" type="textarea" :rows="4" style="height:300px;margin-left:50px"></quill-editor>
+        <quill-editor
+          v-model="formData.content"
+          type="textarea"
+          :rows="4"
+          style="height:300px;margin-left:50px"
+        ></quill-editor>
       </el-form-item>
       <el-form-item label="封面" prop="type" style="margin-top:100px;">
         <!-- 单选组 -->
@@ -23,6 +28,8 @@
           <el-radio :label="-1">自动</el-radio>
         </el-radio-group>
       </el-form-item>
+      <!-- 放置一个封面组件  父组件  => 子组件 props -->
+      <C-image :list="formData.cover.images"></C-image>
       <!-- 下拉框 -->
       <el-form-item label="频道" prop="channel_id">
         <el-select v-model="formData.channel_id">
@@ -59,9 +66,14 @@ export default {
       // 校验
       rules: {
         // 校验规则对象 min  max
-        title: [{ required: true, message: '标题内容不能为空' }, {
-          min: 5, max: 30, message: '标题长度需要在5到30字符之间'
-        }],
+        title: [
+          { required: true, message: '标题内容不能为空' },
+          {
+            min: 5,
+            max: 30,
+            message: '标题长度需要在5到30字符之间'
+          }
+        ],
         content: [{ required: true, message: '文章内容不能为空' }],
         channel_id: [{ required: true, message: '频道分类不能为空' }]
       }
@@ -72,7 +84,6 @@ export default {
     $route: function (to, from) {
       // 修改文章
       if (Object.keys(to.params).length) {
-
       } else {
         // 发布文章
         this.formData = {
@@ -84,6 +95,17 @@ export default {
           },
           channel_id: null // 频道id
         }
+      }
+    },
+    'formData.cover.type': function () {
+      //  this指向组件实例
+      if (this.formData.cover.type === 0 || this.formData.cover.type === -1) {
+        // 无图或者自动模式
+        this.formData.cover.images = []
+      } else if (this.formData.cover.type === 1) {
+        this.formData.cover.images = [''] // 单图模式
+      } else if (this.formData.cover.type === 3) {
+        this.formData.cover.images = ['', '', ''] // 单图模式
       }
     }
   },
