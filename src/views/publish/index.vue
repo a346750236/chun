@@ -88,17 +88,30 @@ export default {
     }
   },
   created () {
-    // 获取频道
+    // 获取频道数据
     this.Getchannel()
+    // 获取ID 判断有没有ID  有ID就是修改 没有ID就是发布
+    let { arId } = this.$route.params // 回去动态路由参数 arID已经是字符串了
+    arId && this.getArticleById(arId) // 获取文章数据
   },
   mounted () {},
   methods: {
+    // 获取文章详情内容
+    async getArticleById (arId) {
+      const result = await this.$axios({
+        url: `/articles/${arId}`,
+        method: 'GET'
+      })
+      this.formData = result.data
+    },
+    // 发布或者修改文章
     async publishArticle (draft) {
       await this.$refs.myForm.validate(async isok => {
         if (isok) {
+          let { arId } = this.$route.params
           await this.$axios({
-            url: '/articles',
-            method: 'POST',
+            url: arId ? `/articles/${arId}` : `/articles`,
+            method: arId ? 'put' : 'post',
             params: { draft },
             data: this.formData
           })
