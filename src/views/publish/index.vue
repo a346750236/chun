@@ -10,7 +10,7 @@
       <el-form-item prop="title" label="标题：">
         <el-input v-model="formData.title" style="width:50%"></el-input>
       </el-form-item>
-      <el-form-item prop="content"  label="内容：">
+      <el-form-item prop="content" label="内容：">
         <!-- 文本框 -->
         <el-input v-model="formData.content" type="textarea" :rows="4" style="width:80%"></el-input>
       </el-form-item>
@@ -68,7 +68,25 @@ export default {
     }
   },
   computed: {},
-  watch: {},
+  watch: {
+    $route: function (to, from) {
+      // 修改文章
+      if (Object.keys(to.params).length) {
+
+      } else {
+        // 发布文章
+        this.formData = {
+          title: '', // 标题
+          content: '', // 内容
+          cover: {
+            type: 0, //   封面类型 -1:自动，0-无图，1-1张，3-3张
+            images: [] // 存储的图片的地址
+          },
+          channel_id: null // 频道id
+        }
+      }
+    }
+  },
   created () {
     // 获取频道
     this.Getchannel()
