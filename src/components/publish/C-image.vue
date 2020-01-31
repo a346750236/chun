@@ -1,9 +1,14 @@
 <template>
   <div class="cover-image">
     <!-- 根据封面的images长度 进行渲染 一个或者3个或者不渲染 -->
-     <div v-for="(item,index) in list" :key="index" class="cover-item">
+     <div @click="openDialog" v-for="(item,index) in list" :key="index" class="cover-item">
          <img :src="item ? item : defaultImg" alt="">
      </div>
+     <!-- 对话框 -->
+     <el-dialog :visible="dialogVisible" @close="CloseDialog">
+       <!-- 放置上传图片组件 -->
+       <S-image></S-image>
+     </el-dialog>
   </div>
 </template>
 
@@ -14,6 +19,7 @@ export default {
   props: ['list'],
   data () {
     return {
+      dialogVisible: false, // 默认关闭
       defaultImg: require('../../assets/img/pic_bg.png')
     }
   },
@@ -21,7 +27,14 @@ export default {
   watch: {},
   created () {},
   mounted () {},
-  methods: {}
+  methods: {
+    openDialog () {
+      this.dialogVisible = true // 打开弹层
+    },
+    CloseDialog () {
+      this.dialogVisible = false // 关闭弹层
+    }
+  }
 }
 </script>
 
