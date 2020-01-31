@@ -16,7 +16,12 @@
         ></el-pagination>
       </el-row>
     </el-tab-pane>
-    <el-tab-pane label="上传图片" name="upload">上传图片</el-tab-pane>
+    <el-tab-pane label="上传图片" name="upload">
+        <!-- 放置一个上传组件 -->
+        <el-upload :http-request="uploadImg" :show-file-list="false" class="upload" action="ql">
+            <i class="el-icon-plus"></i>
+        </el-upload>
+    </el-tab-pane>
   </el-tabs>
   <!-- 分页组件 -->
 </template>
@@ -44,6 +49,17 @@ export default {
   },
   mounted () {},
   methods: {
+    // 上传图片
+    async uploadImg (params) {
+      let data = new FormData()
+      data.append('image', params.file) // 上传append添加到formData数据中
+      let result = await this.$axios({
+        url: '/user/images',
+        method: 'POST',
+        data
+      })
+      this.$emit('SelectImg', result.data.url)
+    },
     //   传递给C-image
     clickImg (url) {
       this.$emit('SelectImg', url)
@@ -83,5 +99,16 @@ export default {
       width: 100%;
     }
   }
+}
+.upload{
+    display: flex;
+    justify-content: center;
+    i{
+        font-size: 50px;
+        display: block;
+        margin: 20px auto;
+        padding: 60px;
+        border: 1px dashed #ccc;
+    }
 }
 </style>
