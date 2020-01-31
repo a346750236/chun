@@ -1,5 +1,9 @@
 <template>
-  <div></div>
+  <el-card>
+    <my-bread slot="header">
+      <template slot="title">账户信息</template>
+    </my-bread>
+  </el-card>
 </template>
 
 <script>
