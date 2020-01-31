@@ -1,8 +1,8 @@
 import LayoutAside from './home/layout-aside.vue' // 左侧导航
 import LayoutHeader from './home/layout-header.vue' // 头部导航
 import Mybread from '@/components/Mybread/my-bread' // 面包屑
-import CoverImage from './publish/C-image' // 显示图片组件
-import SoverImage from './publish/S-image' // 显示图片组件
+import CoverImage from './publish/C-image' // 显示默认显示图片组件
+import SoverImage from './publish/S-image' // 上传图片组件
 
 import { quillEditor } from 'vue-quill-editor' // 引入了quill组件
 import 'quill/dist/quill.core.css'

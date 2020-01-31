@@ -29,7 +29,7 @@
         </el-radio-group>
       </el-form-item>
       <!-- 放置一个封面组件  父组件  => 子组件 props -->
-      <C-image :list="formData.cover.images"></C-image>
+      <C-image @CoverOneImg="PubImg" :list="formData.cover.images"></C-image>
       <!-- 下拉框 -->
       <el-form-item label="频道" prop="channel_id">
         <el-select v-model="formData.channel_id">
@@ -118,6 +118,10 @@ export default {
   },
   mounted () {},
   methods: {
+    // 接收传过来的值，修改图片
+    PubImg (img, index) {
+      this.formData.cover.images = this.formData.cover.images.map((item, i) => i === index ? img : item)
+    },
     // 切换事件
     ChangeType () {
       if (this.formData.cover.type === 0 || this.formData.cover.type === -1) {

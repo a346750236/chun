@@ -2,7 +2,7 @@
   <el-tabs v-model="activeName">
     <el-tab-pane class="item-tab" label="素材库" name="material">
       <el-card class="item-card" v-for="item in list" :key="item.id">
-        <img :src="item.url" alt />
+        <img @click="clickImg(item.url)" :src="item.url" alt />
       </el-card>
       <!-- 分页组件 -->
       <el-row type="flex" justify="center" style="height:80px" align="middle">
@@ -44,6 +44,10 @@ export default {
   },
   mounted () {},
   methods: {
+    //   传递给C-image
+    clickImg (url) {
+      this.$emit('SelectImg', url)
+    },
     //   分页切换
     changePage (newPage) {
       this.page.currentPage = newPage
