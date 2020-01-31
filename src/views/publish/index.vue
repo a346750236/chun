@@ -21,7 +21,7 @@
       </el-form-item>
       <el-form-item label="封面" prop="type" style="margin-top:100px;">
         <!-- 单选组 -->
-        <el-radio-group v-model="formData.cover.type">
+        <el-radio-group @change="ChangeType" v-model="formData.cover.type">
           <el-radio :label="1">单图</el-radio>
           <el-radio :label="3">三图</el-radio>
           <el-radio :label="0">无图</el-radio>
@@ -96,18 +96,18 @@ export default {
           channel_id: null // 频道id
         }
       }
-    },
-    'formData.cover.type': function () {
-      //  this指向组件实例
-      if (this.formData.cover.type === 0 || this.formData.cover.type === -1) {
-        // 无图或者自动模式
-        this.formData.cover.images = []
-      } else if (this.formData.cover.type === 1) {
-        this.formData.cover.images = [''] // 单图模式
-      } else if (this.formData.cover.type === 3) {
-        this.formData.cover.images = ['', '', ''] // 单图模式
-      }
     }
+    // 'formData.cover.type': function () {
+    //   //  this指向组件实例
+    //   if (this.formData.cover.type === 0 || this.formData.cover.type === -1) {
+    //     // 无图或者自动模式
+    //     this.formData.cover.images = []
+    //   } else if (this.formData.cover.type === 1) {
+    //     this.formData.cover.images = [''] // 单图模式
+    //   } else if (this.formData.cover.type === 3) {
+    //     this.formData.cover.images = ['', '', ''] // 单图模式
+    //   }
+    // }
   },
   created () {
     // 获取频道数据
@@ -118,6 +118,17 @@ export default {
   },
   mounted () {},
   methods: {
+    // 切换事件
+    ChangeType () {
+      if (this.formData.cover.type === 0 || this.formData.cover.type === -1) {
+        // 无图或者自动模式
+        this.formData.cover.images = []
+      } else if (this.formData.cover.type === 1) {
+        this.formData.cover.images = [''] // 单图模式
+      } else if (this.formData.cover.type === 3) {
+        this.formData.cover.images = ['', '', ''] // 单图模式
+      }
+    },
     // 获取文章详情内容
     async getArticleById (arId) {
       const result = await this.$axios({
