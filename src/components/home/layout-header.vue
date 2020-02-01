@@ -14,7 +14,7 @@
         <!-- 下拉菜单 -->
         <el-dropdown @command="handleCommand">
           <span class="el-dropdown-link">
-            下拉菜单
+            {{userInfo.name}}
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
