@@ -1,10 +1,11 @@
 <template>
   <div class='layout-aside'>
      <div class='title'>
-         <img src="../../assets/img/logo_admin.png" alt="">
+         <img :src="collaspse ? smallImg:bigImg" alt="">
      </div>
      <!-- 添加router让组件变成路由组件 -->
      <el-menu
+      :collapse="collaspse"
       router
       style="width:231px"
       background-color="#353b4e"
@@ -53,10 +54,11 @@
 export default {
   name: 'LayoutAside',
   components: {},
-  props: {},
+  props: ['collaspse'], // 接收传过来的值
   data () {
     return {
-      message: ''
+      bigImg: require('../../assets/img/logo_admin.png'),
+      smallImg: require('../../assets/img/toutiao.png')
     }
   },
   computed: {},
@@ -69,7 +71,7 @@ export default {
 
 <style scoped lang="less">
 .layout-aside{
-  width: 230px;
+  // width: 230px;
   overflow: hidden;
    .el-menu {
      border-right: none;

@@ -3,9 +3,9 @@
     <!-- 先定义一个大容器 -->
     <el-container>
       <!-- 先放置一个左侧 -->
-      <el-aside style="background-color:#353b4e;min-height:100vh;width:230px">
+      <el-aside :style="{ width: collaspse ? '60px' : '230px'}" style="transition:all 0.3s;background-color:#353b4e;min-height:100vh;">
         <!-- 左侧导航 -->
-         <layout-aside></layout-aside>
+         <layout-aside :collaspse="collaspse"></layout-aside>
       </el-aside>
       <!-- 右侧大容器 -->
       <el-container>
@@ -25,6 +25,7 @@
 </template>
 
 <script>
+import eventBus from '@/utils/eventBus.js'
 export default {
   name: 'Home',
   components: {
@@ -32,14 +33,22 @@ export default {
   props: {},
   data () {
     return {
-      message: ''
+      collaspse: false // 是否折叠
     }
   },
   computed: {},
   watch: {},
-  created () {},
+  created () {
+    // 开启监听
+    eventBus.$on('changeCollapse', () => {
+      // alert('1')
+      this.collaspse = !this.collaspse // 直接取反
+    })
+  },
   mounted () {},
-  methods: {}
+  methods: {
+
+  }
 }
 </script>
 

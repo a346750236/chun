@@ -4,7 +4,7 @@
     <!-- 左侧 -->
     <el-col class="left" :span="6">
       <!-- 左侧图标 -->
-      <i class="el-icon-s-fold"></i>
+      <i @click="collaspseOropen" :class="{'el-icon-s-unfold':collaspse,'el-icon-s-fold' :!collaspse}"></i>
       <span class="title">那些你很冒险的梦，我陪你去疯</span>
     </el-col>
     <!-- 右侧 -->
@@ -36,6 +36,7 @@ export default {
   props: {},
   data () {
     return {
+      collaspse: false, // 默认是不折叠的
       userInfo: {}, // 用户信息
       defauitImg: require('../../assets/img/02.jpg')
     }
@@ -52,6 +53,12 @@ export default {
   },
   mounted () {},
   methods: {
+    // 折叠或者展开
+    collaspseOropen () {
+      this.collaspse = !this.collaspse // 直接取反
+      // 通知被人需要改变宽度了
+      eventBus.$emit('changeCollapse')
+    },
     //   获取用户信息
     async getUserInfo () {
       const result = await this.$axios({
@@ -67,6 +74,8 @@ export default {
         this.$router.push('/login')
       } else if (command === 'git') {
         window.location.href = 'https://github.com/a346750236/toutiao.git'
+      } else if (command === 'info') {
+        this.$router.push('/home/account') // 跳转到用户信息
       }
     }
   }
