@@ -4,7 +4,7 @@
       <template slot="title">账户信息</template>
     </my-bread>
     <!-- 放置上传组件 -->
-      <el-upload class='head-upload' action="ql" :show-file-list="false">
+      <el-upload  v-loading="loading" :http-request="uploadImg" class='head-upload' action="ql" :show-file-list="false">
           <img :src="formData.photo ? formData.photo : defaultImg" alt="">
       </el-upload>
     <!-- 放置Form组件 -->
@@ -35,6 +35,7 @@ export default {
   props: {},
   data () {
     return {
+      loading: false, // 等待默认关闭
       // 定义一个表单数据对象
       formData: {
         name: '', // 用户名
@@ -63,6 +64,20 @@ export default {
   },
   mounted () {},
   methods: {
+    // 上传图片
+    // 默认有个参数
+    async uploadImg (params) {
+      this.loading = true // 打开等待
+      let data = new FormData()
+      data.append('photo', params.file)
+      const result = await this.$axios({
+        url: '/user/photo',
+        method: 'PATCH',
+        data
+      })
+      this.loading = false // 关闭等待
+      this.formData.photo = result.data.photo
+    },
     // 用户效验
     async saveUserInfo () {
       await this.$refs.Myform.validate(async isok => {
