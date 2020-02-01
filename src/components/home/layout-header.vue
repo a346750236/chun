@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import eventBus from '@/utils/eventBus.js'
 export default {
   name: 'LayoutHeader',
   components: {},
@@ -44,6 +45,10 @@ export default {
   created () {
     //   获取用户信息
     this.getUserInfo()
+    eventBus.$on('updateUserInfoSuccess', () => {
+      // 别人告诉你 它更新了数据 应该立刻处理
+      this.getUserInfo()
+    })
   },
   mounted () {},
   methods: {
@@ -53,7 +58,7 @@ export default {
         url: '/user/profile'
       })
       this.userInfo = result.data
-      console.log(result.data)
+      // console.log(result.data)
     },
     //   下拉菜单事件
     handleCommand (command) {

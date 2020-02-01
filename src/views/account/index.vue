@@ -29,6 +29,8 @@
 </template>
 
 <script>
+// 引入文件
+import eventBus from '@/utils/eventBus.js'
 export default {
   name: 'PostComment',
   components: {},
@@ -77,6 +79,7 @@ export default {
       })
       this.loading = false // 关闭等待
       this.formData.photo = result.data.photo
+      eventBus.$emit('updateUserInfoSuccess') // 触发一个自定义事件
     },
     // 用户效验
     async saveUserInfo () {
@@ -91,6 +94,7 @@ export default {
             type: 'success',
             message: '保存信息成功'
           })
+          eventBus.$emit('updateUserInfoSuccess') // 触发一个自定义事件
         }
       })
     },
