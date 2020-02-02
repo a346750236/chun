@@ -19,6 +19,10 @@ const routes = [
     component: Login
   },
   {
+    path: '*', // 全局匹配未找到页面
+    component: () => import('@/views/404.vue') // 按需加载
+  },
+  {
     // 主页
     path: '/home',
     name: 'home',
